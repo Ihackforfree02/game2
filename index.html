@@ -11,7 +11,7 @@
       --gold: #f0db4f;
       --bg1: #0f2027;
       --bg2: #203a43;
-      --card-bg: rgba(0,0,0,0.6);
+      --card: rgba(0,0,0,0.6);
       --shadow: 0 8px 30px rgba(0,0,0,0.7);
     }
     * { box-sizing: border-box; }
@@ -20,176 +20,92 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(90deg, var(--bg1), var(--bg2));
       color: #fff;
-      height: 100%;
       overflow-x: hidden;
     }
     header {
-      display: flex;
-      align-items: center;
-      padding: 16px 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center;
+      padding: 16px 24px; border-bottom: 1px solid rgba(255,255,255,0.1);
       z-index: 100;
     }
     .hamburger {
-      font-size: 24px;
-      cursor: pointer;
-      margin-right: 16px;
+      font-size: 24px; cursor: pointer; margin-right: 16px;
       color: var(--neon);
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .logo svg {
-      width: 56px; height: 56px;
-    }
-    .brand {
-      display: flex;
-      flex-direction: column;
-    }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo svg { width: 56px; height: 56px; }
+    .brand { display: flex; flex-direction: column; }
     .brand-title {
       font-size: 28px; font-weight: bold;
-      color: var(--gold);
-      text-shadow: 0 0 10px rgba(240,219,79,0.4);
+      color: var(--gold); text-shadow: 0 0 10px rgba(240,219,79,0.4);
     }
-    .brand-sub {
-      color: var(--neon);
-      font-size: 12px;
-    }
-    main {
-      padding: 24px;
-      max-width: 1200px;
-      margin: auto;
-    }
+    .brand-sub { color: var(--neon); font-size: 12px; }
+    main { padding: 24px; max-width: 1200px; margin: auto; }
     .search-wrapper {
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
     }
     input[type=search] {
-      flex: 1;
-      padding: 10px;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 8px;
-      background: transparent;
-      color: #fff;
+      flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px; background: transparent; color: #fff;
     }
     .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr));
       gap: 16px;
     }
     .game-card {
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
+      background: var(--card); border-radius: 12px; overflow: hidden;
+      box-shadow: var(--shadow); display: flex; flex-direction: column;
       transition: transform 0.2s;
     }
-    .game-card:hover {
-      transform: translateY(-4px);
+    .game-card:hover { transform: translateY(-4px); }
+    .game-preview { height: 140px; background: #051024; position: relative; }
+    .game-preview img, .game-preview iframe {
+      width: 100%; height: 100%; object-fit: cover; border: 0;
     }
-    .game-preview {
-      height: 140px;
-      background: #051024;
-      position: relative;
-    }
-    .game-preview iframe, .game-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border: 0;
-    }
-    .game-info {
-      padding: 12px;
-      flex: 1;
-    }
-    .game-info h4 {
-      margin: 0 0 6px 0; font-size: 16px;
-    }
-    .game-info p {
-      margin: 0; font-size: 13px; color: rgba(255,255,255,0.7);
-    }
+    .game-info { padding: 12px; flex: 1; }
+    .game-info h4 { margin: 0 0 6px 0; font-size: 16px; }
+    .game-info p { margin: 0; font-size: 13px; color: rgba(255,255,255,0.7); }
     .game-actions {
-      padding: 8px;
-      display: flex;
-      gap: 8px;
-      justify-content: space-between;
+      padding: 8px; display: flex; gap: 8px; justify-content: space-between;
     }
     .btn {
-      padding: 6px 12px;
-      border: 1px solid var(--neon);
-      border-radius: 999px;
-      background: transparent;
-      color: var(--neon);
-      text-decoration: none;
-      font-size: 13px;
-      transition: all 0.2s;
+      padding: 6px 12px; border: 1px solid var(--neon);
+      border-radius: 999px; background: transparent; color: var(--neon);
+      text-decoration: none; font-size: 13px; transition: all 0.2s;
       text-align: center;
     }
-    .btn.primary {
-      background: var(--neon);
-      color: var(--bg1);
-    }
-    .btn:hover {
-      background: var(--neon);
-      color: var(--bg1);
-    }
+    .btn.primary { background: var(--neon); color: var(--bg1); }
+    .btn:hover { background: var(--neon); color: var(--bg1); }
     .side-menu {
-      position: fixed;
-      top: 0; left: -260px;
-      width: 260px;
-      height: 100%;
-      background: var(--card-bg);
-      padding: 24px;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.8);
-      transition: left 0.3s ease;
-      z-index: 200;
+      position: fixed; top: 0; left: -260px; width: 260px; height: 100%;
+      background: var(--card); padding: 24px; box-shadow: 4px 0 20px rgba(0,0,0,0.8);
+      transition: left 0.3s ease; z-index: 200;
     }
-    .side-menu.open {
-      left: 0;
-    }
+    .side-menu.open { left: 0; }
     .side-menu .close-btn {
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--neon);
-      margin-bottom: 24px;
+      font-size: 24px; cursor: pointer; color: var(--neon); margin-bottom: 24px;
     }
     .menu-list a {
-      display: block;
-      padding: 12px 0;
-      color: var(--neon);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: block; padding: 12px 0; color: var(--neon);
+      text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     .overlay {
-      position: fixed;
-      top:0; left:0;
-      width:100%; height:100%;
-      background: rgba(0,0,0,0.6);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-      z-index: 150;
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.6); opacity: 0; visibility: hidden;
+      transition: all 0.3s; z-index: 150;
     }
-    .overlay.show {
-      opacity: 1;
-      visibility: visible;
-    }
+    .overlay.show { opacity: 1; visibility: visible; }
   </style>
 </head>
 <body>
   <header>
     <div class="hamburger" id="menuToggle">☰</div>
     <div class="logo">
-      <!-- Replace with your logo image later -->
       <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00ffff"/><stop offset="1" stop-color="#66f0ff"/></linearGradient>
+          <linearGradient id="g" x1="0" x2="1">
+            <stop offset="0" stop-color="#00ffff"/>
+            <stop offset="1" stop-color="#66f0ff"/>
+          </linearGradient>
         </defs>
         <rect x="8" y="8" width="84" height="84" rx="16" fill="url(#g)" opacity="0.2"/>
         <text x="50" y="60" text-anchor="middle" font-size="40" font-weight="bold" fill="#f0db4f">MG</text>
@@ -230,11 +146,16 @@
     const sideMenu = document.getElementById('sideMenu');
     const menuClose = document.getElementById('menuClose');
     const overlay = document.getElementById('overlay');
-    menuToggle.addEventListener('click', ()=> { sideMenu.classList.add('open'); overlay.classList.add('show'); });
-    menuClose.addEventListener('click', ()=> { sideMenu.classList.remove('open'); overlay.classList.remove('show'); });
-    overlay.addEventListener('click', ()=> { sideMenu.classList.remove('open'); overlay.classList.remove('show'); });
+    menuToggle.addEventListener('click', ()=> {
+      sideMenu.classList.add('open'); overlay.classList.add('show');
+    });
+    menuClose.addEventListener('click', ()=> {
+      sideMenu.classList.remove('open'); overlay.classList.remove('show');
+    });
+    overlay.addEventListener('click', ()=>{
+      sideMenu.classList.remove('open'); overlay.classList.remove('show');
+    });
 
-    // Game data (same as before)
     const GAMES = [
       {id:'minecraft', title:'Minecraft (Web)', url:'https://ihackforfree02.github.io/Precision-Client-For-EaglerCraft/', tags:['adventure']},
       {id:'timeshooter', title:'Time Shooter', url:'https://schoolaccountforme.github.io/Time-Shooter-3-SWAT/', tags:['shooter']},
@@ -258,65 +179,62 @@
       {id:'track', title:'Track Racing', url:'https://ihackforfree02.github.io/TriggerRally/server/public/', tags:['racing']},
     ];
 
-    // A few curated preview images (you’ll replace with real ones)
+    // Real images for known games
     const PREVIEWS = {
-      minecraft: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&auto=format&fit=crop',
-      timeshooter: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop',
-      '1v1': 'https://images.unsplash.com/photo-1505740106531-4243f3831f9e?w=600&auto=format&fit=crop',
-      '2048': 'https://images.unsplash.com/photo-1557180295-76eee20ae8d8?w=600&auto=format&fit=crop',
-      gunspin: 'https://images.unsplash.com/photo-1495433324511-bf8e92934d90?w=600&auto=format&fit=crop'
-      // add more or fallback
+      minecraft: 'https://images.voice123.com/blog/wp-content/uploads/2023/02/minecraft-thumbnail.jpg',  
+      timeshooter: 'https://example.com/timeshooter_screenshot.jpg',
+      '1v1': 'https://example.com/1v1lol_preview.jpg',
+      '2048': 'https://example.com/2048_game.jpg',
+      gunspin: 'https://example.com/gunspin_preview.jpg',
+      // Add more game-specific screenshot URLs here
     };
 
-    function makePreviewSrcdoc(imgUrl, title) {
-      return `<!doctype html><meta charset='utf-8'><style>body{margin:0;background:#051024;display:flex;align-items:center;justify-content:center;font-family:sans-serif}img{width:100%;height:100%;object-fit:cover}</style><img alt='${title} preview' src='${imgUrl}'/>`;
+    function makeSrcdoc(imgUrl, title) {
+      return `<!doctype html><meta charset='utf-8'><style>body{margin:0;background:#051024;display:flex;align-items:center;justify-content:center}img{width:100%;height:100%;object-fit:cover}</style><img alt='${title} preview' src='${imgUrl}'/>`;
     }
 
     function renderGames(list) {
-      const container = document.getElementById('gamesGrid');
-      container.innerHTML = '';
+      const grid = document.getElementById('gamesGrid');
+      grid.innerHTML = '';
       list.forEach(g => {
         const card = document.createElement('div');
         card.className = 'game-card';
         const img = PREVIEWS[g.id] || PREVIEWS['minecraft']; // fallback
         card.innerHTML = `
-          <div class="game-preview"><iframe srcdoc="${makePreviewSrcdoc(img, g.title).replace(/"/g,'&quot;')}" sandbox="allow-same-origin" loading="lazy"></iframe></div>
+          <div class="game-preview">
+            <iframe srcdoc="${makeSrcdoc(img, g.title).replace(/"/g,'&quot;')}" sandbox="allow-same-origin" loading="lazy"></iframe>
+          </div>
           <div class="game-info"><h4>${g.title}</h4><p>${g.tags.join(' • ')}</p></div>
           <div class="game-actions">
             <a class="btn" href="#" data-action="preview" data-img="${img}" data-title="${g.title}">Preview</a>
             <a class="btn primary" href="${g.url}" target="_blank" rel="noopener">Play</a>
           </div>
         `;
-        container.appendChild(card);
+        grid.appendChild(card);
       });
     }
 
     renderGames(GAMES);
 
-    // Preview modal
-    let modalDiv;
+    // Modal preview
+    let modal;
     function showModal(img, title) {
-      if (!modalDiv) {
-        modalDiv = document.createElement('div');
-        modalDiv.style.position = 'fixed';
-        modalDiv.style.top = '0'; modalDiv.style.left = '0';
-        modalDiv.style.width = '100%'; modalDiv.style.height = '100%';
-        modalDiv.style.background = 'rgba(0,0,0,0.8)';
-        modalDiv.style.display = 'flex';
-        modalDiv.style.alignItems = 'center';
-        modalDiv.style.justifyContent = 'center';
-        modalDiv.style.zIndex = 9999;
-        modalDiv.addEventListener('click', ()=> modalDiv.remove());
-        const inner = document.createElement('div');
-        inner.style.width = '80%';
-        inner.style.maxWidth = '800px';
-        inner.style.height = '60%';
-        inner.style.borderRadius = '12px';
-        inner.style.overflow = 'hidden';
-        modalDiv.appendChild(inner);
-        document.body.appendChild(modalDiv);
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.style.position = 'fixed'; modal.style.top = '0'; modal.style.left = '0';
+        modal.style.width = '100%'; modal.style.height = '100%';
+        modal.style.background = 'rgba(0,0,0,0.8)'; modal.style.display = 'flex';
+        modal.style.alignItems = 'center'; modal.style.justifyContent = 'center';
+        modal.style.zIndex = 9999;
+        modal.addEventListener('click', () => modal.remove());
+        const container = document.createElement('div');
+        container.style.width = '80%'; container.style.maxWidth = '800px';
+        container.style.height = '60%'; container.style.borderRadius = '12px';
+        container.style.overflow = 'hidden';
+        modal.appendChild(container);
+        document.body.appendChild(modal);
       }
-      modalDiv.firstChild.innerHTML = `<iframe srcdoc="${makePreviewSrcdoc(img, title).replace(/"/g,'&quot;')}" style="width:100%;height:100%;border:0" sandbox="allow-same-origin"></iframe>`;
+      modal.firstChild.innerHTML = `<iframe srcdoc="${makeSrcdoc(img, title).replace(/"/g,'&quot;')}" style="width:100%;height:100%;border:0" sandbox="allow-same-origin" title="Preview: ${title}"></iframe>`;
     }
 
     document.addEventListener('click', e => {
@@ -327,12 +245,12 @@
       }
     });
 
-    // Simple search filtering
+    // Search
     document.getElementById('searchInput').addEventListener('input', e => {
       const q = e.target.value.toLowerCase();
       const filtered = GAMES.filter(g =>
         g.title.toLowerCase().includes(q) ||
-        g.tags.some(t => t.includes(q))
+        g.tags.some(tag => tag.includes(q))
       );
       renderGames(filtered);
     });
