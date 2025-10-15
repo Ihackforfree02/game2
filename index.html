@@ -1,57 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MR GAMES</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MR GAMES</title>
+<link rel="icon" href="favicon.ico">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Hamburger -->
-  <div id="hamburger">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
 
-  <!-- Side Menu -->
-  <div id="side-menu">
-    <a href="#" onclick="toggleChat()">Chat</a>
-    <a href="useful_links.html">Useful Links</a>
-    <a href="beta.html">BETA</a>
-    <a href="clash_picker.html">Clash Picker</a>
-    <a href="hollow_knight.html">Hollow Knight Map</a>
-    <a href="gba.html">GBA Games</a>
-  </div>
+<header>
+  <h1>MR GAMES</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="login.html">Login</a>
+    <a href="signup.html">Sign Up</a>
+    <a href="settings.html">Settings</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+</header>
 
-  <div class="container">
-    <h1>MR GAMES</h1>
-    <p class="subtitle">The ultimate unblocked games arcade</p>
-    <div class="game-grid" id="game-grid"></div>
-  </div>
+<main>
+  <div class="game-grid" id="game-grid"></div>
+</main>
 
-  <script src="games.js"></script>
-  <script>
-    const hamburger = document.getElementById("hamburger");
-    const sideMenu = document.getElementById("side-menu");
-    let menuOpen = false;
-    hamburger.addEventListener("click", () => {
-      menuOpen = !menuOpen;
-      sideMenu.style.left = menuOpen ? "0" : "-250px";
-    });
+<!-- Chat Widget -->
+<div id="chat-toggle" onclick="toggleChat()">💬 Chat</div>
+<div id="chat-widget">
+  <iframe src="https://communityhelp.linewize.org/" title="Community Chat"></iframe>
+</div>
 
-    function toggleChat() {
-      if (window.chatWindow && !window.chatWindow.closed) {
-        window.chatWindow.focus();
-      } else {
-        window.chatWindow = window.open(
-          'https://communityhelp.linewize.org/',
-          'ChatWindow',
-          'width=400,height=600'
-        );
-        if (!window.chatWindow) alert("Popup blocked!");
-      }
-    }
-  </script>
+<script src="cloak_panic.js"></script>
+<script src="games.js"></script>
+<script src="index.js"></script>
 </body>
 </html>
