@@ -1,42 +1,8 @@
-// List of games with name, URL, and logo placeholder
 const games = [
-  { name: "Minecraft", url: "https://ihackforfree02.github.io/Precision-Client-For-EaglerCraft/", logo: "" },
-  { name: "Time Shooter", url: "https://schoolaccountforme.github.io/Time-Shooter-3-SWAT/", logo: "" },
-  { name: "1v1.LOL", url: "https://ihackforfree02.github.io/1v1.lol/", logo: "" },
-  { name: "2048", url: "https://schoolaccountforme.github.io/2048/", logo: "" },
-  { name: "Gun Spin", url: "https://ihackforfree02.github.io/GunSpin/", logo: "" },
-  { name: "Polytrack", url: "https://ihackforfree02.github.io/polytrack.3/", logo: "" },
-  { name: "Stickman Hook", url: "https://ihackforfree02.github.io/Stickman-Hook/", logo: "" },
-  { name: "Cluster Rush", url: "https://ihackforfree02.github.io/cluster/", logo: "" },
-  { name: "Cookie Clicker", url: "https://ihackforfree02.github.io/cookie-clicker/", logo: "" },
-  { name: "CSGO Clicker", url: "https://ezunblocktheopps.github.io/ezunblocktheopp.github.io/", logo: "" },
-  { name: "Dogeminer", url: "https://amazingwebsitesupersigma.github.io/dogeminer/", logo: "" }
+  {name:'Minecraft', url:'https://ihackforfree02.github.io/Precision-Client-For-EaglerCraft/', logo:'https://upload.wikimedia.org/wikipedia/en/5/51/Minecraft_cover.png'},
+  {name:'Time Shooter', url:'https://schoolaccountforme.github.io/Time-Shooter-3-SWAT/', logo:'https://upload.wikimedia.org/wikipedia/en/e/e2/Time_Shooter_3_Swat.jpg'},
+  {name:'1v1.LOL', url:'https://ihackforfree02.github.io/1v1.lol/', logo:'https://upload.wikimedia.org/wikipedia/en/f/fc/1v1.LOL_logo.png'},
+  {name:'2048', url:'https://schoolaccountforme.github.io/2048/', logo:'https://upload.wikimedia.org/wikipedia/en/3/34/2048_game_logo.png'},
+  {name:'Gun Spin', url:'https://ihackforfree02.github.io/GunSpin/', logo:'https://upload.wikimedia.org/wikipedia/en/a/a3/GunSpin_logo.png'},
+  {name:'Polytrack', url:'https://ihackforfree02.github.io/polytrack.3/', logo:'https://upload.wikimedia.org/wikipedia/en/7/77/Polytrack_logo.png'}
 ];
-
-// Populate homepage
-function displayGames() {
-  const grid = document.getElementById("game-grid");
-  grid.innerHTML = "";
-  games.forEach(game => {
-    const card = document.createElement("div");
-    card.className = "game-card";
-
-    const img = document.createElement("img");
-    // Try official logos first
-    img.src = game.logo || `https://via.placeholder.com/160x120.png?text=${encodeURIComponent(game.name)}`;
-    img.alt = game.name;
-
-    const title = document.createElement("p");
-    title.textContent = game.name;
-
-    card.appendChild(img);
-    card.appendChild(title);
-    card.addEventListener("click", () => {
-      window.open(game.url, "_blank");
-    });
-
-    grid.appendChild(card);
-  });
-}
-
-document.addEventListener("DOMContentLoaded", displayGames);
