@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | MR GAMES</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>Admin Panel</h1>
+  <label>Enter Admin Email or Code:</label>
+  <input type="text" id="adminAuth" placeholder="Email or code">
+  <button onclick="authAdmin()">Authenticate</button>
+
+  <div id="adminPanel" style="display:none; margin-top:20px;">
+    <h2>Users</h2>
+    <input type="text" id="searchUser" placeholder="Search by username or email" oninput="renderUsers()">
+    <div id="userList"></div>
+  </div>
+</div>
+<script src="admin.js"></script>
+</body>
+</html>
