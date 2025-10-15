@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arcadia — Play Amazing Web Games</title>
+  <meta name="description" content="Arcadia — a modern, responsive, accessible game portal. Embed, launch and manage HTML5 games with leaderboards, previews and polished UI." />
+  <meta name="author" content="Your Name" />
+
+  <!-- Favicons (replace with your assets) -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Minimal reset + system fonts -->
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --muted:#9ca3af; --accent:#7c5cff; --accent-2:#2dd4bf; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --max-width:1200px; --ff-system: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      --easing:cubic-bezier(.2,.9,.3,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--ff-system); background:linear-gradient(180deg,var(--bg),#081124 60%); color:#e6eef8; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      line-height:1.4; padding:32px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .container{width:100%;max-width:var(--max-width)}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;box-shadow:0 8px 30px rgba(124,92,255,0.18)}
+    .title{font-size:18px;font-weight:700}
+    .subtitle{font-size:12px;color:var(--muted)}
+    nav{display:flex;gap:10px}
+    .btn{background:var(--glass);padding:10px 14px;border-radius:12px;color:inherit;border:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:transform .18s var(--easing),box-shadow .18s var(--easing)}
+    .btn.primary{background:linear-gradient(90deg,var(--accent),#9966ff);box-shadow:0 8px 30px rgba(124,92,255,0.15);}
+    .btn:hover{transform:translateY(-3px)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;margin-bottom:28px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:22px;border-radius:var(--radius);box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    h1{margin:0 0 8px 0;font-size:34px;line-height:1.02}
+    p.lead{color:var(--muted);margin:0 0 18px}
+
+    .actions{display:flex;gap:12px}
+
+    /* Gallery */
+    .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .game-card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:10px}
+    .thumb{height:120px;border-radius:10px;background:linear-gradient(180deg,#091126,#071022);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:13px}
+    .game-row{display:flex;justify-content:space-between;align-items:center}
+    .meta{font-size:13px;color:var(--muted)}
+    .tags{display:flex;gap:8px}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 8px;border-radius:999px;font-size:12px}
+
+    /* Right column preview */
+    .preview{display:flex;flex-direction:column;gap:12px}
+    .embed{height:360px;border-radius:12px;overflow:hidden;background:#061028;display:flex;align-items:center;justify-content:center}
+    iframe{border:0;width:100%;height:100%}
+
+    /* Leaderboard */
+    .leaderboard{display:grid;gap:8px}
+    .leader-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:10px;background:rgba(255,255,255,0.02)}
+
+    /* Footer */
+    footer{display:flex;justify-content:space-between;align-items:center;margin-top:28px;color:var(--muted);font-size:13px}
+
+    /* Modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:linear-gradient(0deg,rgba(2,6,23,0.6),rgba(2,6,23,0.6));padding:28px}
+    .modal.open{display:flex}
+    .modal-card{width:100%;max-width:920px;background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:18px;border-radius:16px}
+
+    /* Responsive */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .embed{height:260px}
+      body{padding:18px}
+    }
+
+    /* Tiny utilities */
+    .muted{color:var(--muted)}
+    .flex{display:flex}
+    .center{align-items:center}
+    .space{flex:1}
+
+    /* Focus states for accessibility */
+    .btn:focus{outline:3px solid rgba(124,92,255,0.18);outline-offset:3px}
+    a:focus{outline:3px solid rgba(124,92,255,0.18);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <main class="container" id="app">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden>AG</div>
+        <div>
+          <div class="title">Arcadia</div>
+          <div class="subtitle">Play. Share. Compete.</div>
+        </div>
+      </div>
+
+      <nav aria-label="Primary Navigation">
+        <button class="btn" id="toggleTheme">Theme</button>
+        <button class="btn" id="uploadBtn">Upload</button>
+        <button class="btn primary" id="playRandom">Play Random</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h1>High quality HTML5 game portal — polished, fast, and accessible</h1>
+        <p class="lead">A starter website for hosting webgames. Includes a responsive gallery, in-page preview, per-game leaderboards (local mock), and nice animations — drop your games in and go live.</p>
+
+        <div class="actions">
+          <button class="btn primary" id="playFeatured">Play Featured</button>
+          <button class="btn" id="openGallery">Browse Games</button>
+          <button class="btn" id="downloadPkg">Download Starter</button>
+        </div>
+
+        <hr style="margin:16px 0;border:none;border-top:1px solid rgba(255,255,255,0.03)">
+
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="flex:1">
+            <strong>Why Arcadia?</strong>
+            <div class="muted" style="font-size:13px;margin-top:6px">Performance-first, accessible controls, keyboard & touch support, and an easy embed API.</div>
+          </div>
+          <div style="width:160px;text-align:right">
+            <div style="font-size:12px;color:var(--muted)">Active players</div>
+            <div style="font-weight:700;font-size:20px">1,234</div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="preview">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div>
+              <div style="font-weight:700">Featured: Neon Runner</div>
+              <div class="muted" style="font-size:13px">Fast-paced endless runner — click play to preview</div>
+            </div>
+            <div class="tags">
+              <span class="tag">Arcade</span>
+              <span class="tag">HTML5</span>
+            </div>
+          </div>
+
+          <div class="embed" id="embedWrap" aria-live="polite">
+            <!-- Placeholder iframe. Replace src with your game's URL or embed code -->
+            <iframe id="gameFrame" title="Featured game preview" srcdoc="<!doctype html><meta charset='utf-8'><style>body{display:flex;align-items:center;justify-content:center;height:100vh;background:#061028;color:#9ca3af;font-family:sans-serif}h2{font-size:20px}</style><h2>Preview: Neon Runner\n(Replace this iframe src with your game URL)</h2>" sandbox="allow-scripts allow-same-origin"></iframe>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="muted">Controls: ← → or touch</div>
+            <div><button class="btn" id="launchFull">Open Fullscreen</button></div>
+          </div>
+        </div>
+
+        <div class="card leaderboard" aria-label="Leaderboard">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-weight:700">Leaderboard</div>
+            <div class="muted" style="font-size:12px">Top scores (local)</div>
+          </div>
+
+          <div id="leaders">
+            <!-- JS will populate -->
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:12px">
+            <input id="playerName" placeholder="Your name" style="flex:1;padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
+            <button class="btn primary" id="submitScore">Submit</button>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card" style="margin-bottom:18px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-weight:700">Games</div>
+        <div class="muted">Showing best curated HTML5 entries</div>
+      </div>
+
+      <div class="games-grid" id="gamesGrid" aria-live="polite">
+        <!-- Game cards dynamically injected -->
+      </div>
+    </section>
+
+    <footer>
+      <div>© <span id="year"></span> Arcadia — Built with ❤️</div>
+      <div class="muted">Made for education & hobby projects • Keyboard & mobile-friendly</div>
+    </footer>
+
+    <!-- Modal for game details -->
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div>
+            <h3 id="modalTitle" style="margin:0">Game Title</h3>
+            <div class="muted" id="modalTags">Tags</div>
+          </div>
+          <div><button class="btn" id="closeModal">Close</button></div>
+        </div>
+        <div id="modalBody">Details...</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Core JS: gallery, preview, local leaderboard, and small utilities -->
+  <script>
+    // --- Sample dataset: Replace these entries with your real game objects ---
+    const GAMES = [
+      {id:'neon-runner',title:'Neon Runner',tags:['Arcade','Endless'],thumb:'',src:'https://example.com/neon-runner/index.html',desc:'Fast reflex runner with neon visuals. Use arrow keys or touch.'},
+      {id:'pixel-puzzle',title:'Pixel Puzzle',tags:['Puzzle','Casual'],thumb:'',src:'https://example.com/pixel-puzzle/index.html',desc:'Relaxing block puzzle. Drag & drop to solve.'},
+      {id:'sky-raid',title:'Sky Raid',tags:['Shooter','Action'],thumb:'',src:'https://example.com/sky-raid/index.html',desc:'Top-down shooter with powerups.'},
+      {id:'maze-quest',title:'Maze Quest',tags:['Adventure','Maze'],thumb:'',src:'https://example.com/maze-quest/index.html',desc:'Solve the shifting labyrinth.'}
+    ];
+
+    // Utilities
+    const $ = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
+
+    // Insert current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Render games grid
+    function renderGames(){
+      const grid = $('#gamesGrid'); grid.innerHTML='';
+      GAMES.forEach(g=>{
+        const card = document.createElement('article'); card.className='game-card'; card.setAttribute('tabindex','0');
+        card.innerHTML = `
+          <div class="thumb" role="img" aria-label="Thumbnail for ${g.title}">${g.title}</div>
+          <div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div style="font-weight:700">${g.title}</div>
+              <div class="muted" style="font-size:12px">${g.tags.join(' • ')}</div>
+            </div>
+            <div class="muted" style="font-size:13px;margin-top:8px">${g.desc}</div>
+          </div>
+          <div class="game-row" style="margin-top:10px">
+            <div class="tags">${g.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn" data-action="preview" data-id="${g.id}">Preview</button>
+              <button class="btn primary" data-action="play" data-id="${g.id}">Play</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Preview / Play handling
+    function setPreviewById(id){
+      const game = GAMES.find(g=>g.id===id); if(!game) return;
+      const frame = $('#gameFrame');
+      // Basic safety: use srcdoc when no external URL provided
+      if(game.src && game.src.startsWith('http')){
+        frame.src = game.src;
+      } else {
+        frame.srcdoc = `<html><body style='background:#061028;color:#9ca3af;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh'><h2>${game.title} — Demo placeholder</h2></body></html>`;
+      }
+      // Update featured labels
+      $('.preview .card h3')?.remove?.();
+      // Accessibility announce
+      $('#embedWrap').setAttribute('aria-busy','true');
+      setTimeout(()=>$('#embedWrap').removeAttribute('aria-busy'),800);
+    }
+
+    // Open full-screen modal with description and play link
+    function openModal(id){
+      const g = GAMES.find(x=>x.id===id); if(!g) return;
+      $('#modalTitle').textContent = g.title;
+      $('#modalTags').textContent = g.tags.join(' • ');
+      $('#modalBody').innerHTML = `
+        <p class='muted'>${g.desc}</p>
+        <div style='margin-top:12px;display:flex;gap:10px'>
+          <a class='btn primary' href='${g.src}' target='_blank' rel='noopener'>Open in new tab</a>
+          <button class='btn' id='embedThis' data-src='${g.src}'>Load in preview</button>
+        </div>
+      `;
+      const modal = $('#modal'); modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    }
+
+    // Local leaderboard (mock): stored per-game in localStorage
+    function getLeaders(gameId){
+      try{
+        return JSON.parse(localStorage.getItem('leaders:'+gameId) || '[]');
+      }catch(e){return []}
+    }
+    function saveLeader(gameId,entry){
+      const arr = getLeaders(gameId); arr.push(entry); arr.sort((a,b)=>b.score-a.score); localStorage.setItem('leaders:'+gameId,JSON.stringify(arr.slice(0,20)));
+      renderLeaders(gameId);
+    }
+    function renderLeaders(gameId='neon-runner'){
+      const node = $('#leaders'); node.innerHTML='';
+      const list = getLeaders(gameId);
+      if(list.length===0){ node.innerHTML = '<div class="muted">No scores yet. Be the first!</div>'; return; }
+      list.slice(0,6).forEach((it,idx)=>{
+        const el = document.createElement('div'); el.className='leader-item';
+        el.innerHTML = `<div><strong>#${idx+1} ${it.name}</strong><div class='muted' style='font-size:12px'>${new Date(it.time).toLocaleString()}</div></div><div style='font-weight:700'>${it.score}</div>`;
+        node.appendChild(el);
+      });
+    }
+
+    // Event delegation
+    document.addEventListener('click',e=>{
+      const btn = e.target.closest('button'); if(!btn) return;
+      const action = btn.dataset.action;
+      if(action==='preview'){
+        setPreviewById(btn.dataset.id);
+      } else if(action==='play'){
+        openModal(btn.dataset.id);
+      }
+    });
+
+    // Modal close
+    $('#closeModal').addEventListener('click',()=>{ $('#modal').classList.remove('open'); $('#modal').setAttribute('aria-hidden','true'); });
+    // Load in preview from modal
+    document.addEventListener('click',e=>{ const b = e.target.closest('#embedThis'); if(!b) return; const src=b.dataset.src; $('#gameFrame').src = src; $('#modal').classList.remove('open'); $('#modal').setAttribute('aria-hidden','true'); });
+
+    // Submit score (mock)
+    $('#submitScore').addEventListener('click',()=>{
+      const name = $('#playerName').value.trim() || 'Anon';
+      const score = Math.floor(Math.random()*10000); // for demo, random score
+      saveLeader('neon-runner',{name,score,time:Date.now()});
+      $('#playerName').value='';
+    });
+
+    // Small features
+    $('#playFeatured').addEventListener('click',()=>{ setPreviewById('neon-runner'); });
+    $('#playRandom').addEventListener('click',()=>{ const id = GAMES[Math.floor(Math.random()*GAMES.length)].id; setPreviewById(id); });
+    $('#openGallery').addEventListener('click',()=>{ document.getElementById('gamesGrid').scrollIntoView({behavior:'smooth'}); });
+    $('#downloadPkg').addEventListener('click',()=>{ alert('This would download a starter ZIP in a production setup. For now, copy files from this repo.'); });
+
+    // Simple keyboard access: use number keys to preview first few games
+    document.addEventListener('keydown',e=>{
+      if(e.key>='1' && e.key<='9'){
+        const idx = parseInt(e.key)-1; if(GAMES[idx]) setPreviewById(GAMES[idx].id);
+      }
+      if(e.key==='/' && document.activeElement.tagName!=='INPUT') { e.preventDefault(); $('#playerName').focus(); }
+    });
+
+    // Drag & drop upload placeholder (for future server-side)
+    const uploadBtn = $('#uploadBtn'); uploadBtn.addEventListener('click',()=>{ alert('Upload flow: in a real project you would POST a zip or URL to your backend and validate.'); });
+
+    // Theme toggle (light/dark simplified)
+    let light=false;
+    $('#toggleTheme').addEventListener('click',()=>{
+      light = !light; document.body.style.background = light ? 'linear-gradient(180deg,#f7fbff,#e9eef8)' : 'linear-gradient(180deg,var(--bg),#081124 60%)'; document.body.style.color = light ? '#06202b' : '#e6eef8';
+    });
+
+    // Init
+    renderGames(); renderLeaders();
+
+    // Accessibility: close modal on ESC
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape') { $('#modal').classList.remove('open'); $('#modal').setAttribute('aria-hidden','true'); } });
+
+    // Performance tip: lazy-load iframe only when visible
+    let iframeLoaded=false;
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting && !iframeLoaded){ iframeLoaded=true; /* could preload featured src here */ }
+      });
+    });
+    io.observe(document.getElementById('embedWrap'));
+
+    // Friendly console message for developers
+    console.log('%cArcadia starter loaded — drop your game URLs into the GAMES array in the source.', 'color: #9b84ff; font-weight:700');
+
+    // End of script
+  </script>
+</body>
+</html>
