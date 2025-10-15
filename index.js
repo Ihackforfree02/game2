@@ -1,4 +1,3 @@
-// Display game cards
 function displayGames() {
   const grid = document.getElementById('game-grid');
   games.forEach(game => {
@@ -11,7 +10,6 @@ function displayGames() {
 }
 document.addEventListener('DOMContentLoaded', displayGames);
 
-// Chat toggle
 function toggleChat() {
   const chat = document.getElementById('chat-widget');
   chat.style.display = (chat.style.display === 'none' || chat.style.display === '') ? 'block' : 'none';
