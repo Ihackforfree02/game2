@@ -1,336 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>MR GAMES — Arcade Hub</title>
-  <meta name="description" content="MR GAMES — unblocked HTML5 games with previews, login, and a slide-out menu." />
-  <style>
-    :root{--neon:#00ffff;--gold:#f0db4f;--bg1:#071321;--bg2:#102a3a}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, 'Segoe UI', system-ui, Arial;background:linear-gradient(90deg,var(--bg1),var(--bg2));color:#fff}
-    header{display:flex;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.03)}
-    .hamburger{font-size:26px;cursor:pointer;color:var(--neon);margin-right:12px}
-    .logo{display:flex;align-items:center;gap:12px}
-    .brand-title{font-size:22px;font-weight:800;color:var(--gold)}
-    .brand-sub{font-size:12px;color:var(--neon);opacity:0.9}
-    .top-actions{margin-left:auto;display:flex;gap:8px}
-    .btn{padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--neon);cursor:pointer}
-    .btn.primary{background:var(--neon);color:#022326}
-
-    main{max-width:1200px;margin:20px auto;padding:18px;display:grid;grid-template-columns:1fr;gap:18px}
-
-    /* layout */
-    .toolbar{display:flex;gap:12px;align-items:center}
-    .search{flex:1}
-    input[type=search]{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:inherit}
-
-    .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
-    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;min-height:220px}
-    .preview{height:140px;background:#041024;display:flex;align-items:center;justify-content:center}
-    .preview img{width:100%;height:100%;object-fit:cover}
-    .logo-fallback{display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:linear-gradient(90deg,rgba(0,0,0,0.15),rgba(0,0,0,0.05));font-weight:800;font-size:22px;color:var(--neon)}
-    .meta{padding:10px;flex:1;display:flex;flex-direction:column}
-    .meta h4{margin:0 0 8px 0}
-    .meta p{margin:0;color:rgba(255,255,255,0.7);font-size:13px}
-    .actions{display:flex;gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,0.02)}
-
-    /* side menu */
-    .side-menu{position:fixed;left:-320px;top:0;width:320px;height:100%;background:linear-gradient(180deg,rgba(0,0,0,0.7),rgba(0,0,0,0.55));padding:20px;box-shadow:6px 0 40px rgba(0,0,0,0.6);transition:left .28s ease;z-index:60}
-    .side-menu.open{left:0}
-    .menu-close{font-size:22px;color:var(--neon);cursor:pointer;margin-bottom:12px}
-    .menu-list a{display:block;padding:12px 8px;color:var(--neon);text-decoration:none;border-bottom:1px dashed rgba(255,255,255,0.03)}
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);visibility:hidden;opacity:0;transition:opacity .2s;z-index:50}
-    .overlay.show{visibility:visible;opacity:1}
-
-    /* login modal */
-    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:80;visibility:hidden;opacity:0;transition:opacity .15s}
-    .modal.show{visibility:visible;opacity:1}
-    .modal-card{width:100%;max-width:520px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:18px;border-radius:12px}
-    .field{display:flex;flex-direction:column;margin-bottom:10px}
-    label{font-size:13px;margin-bottom:6px;color:rgba(255,255,255,0.8)}
-    input[type=text],input[type=email],input[type=password]{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:inherit}
-
-    footer{padding:16px;text-align:center;color:rgba(255,255,255,0.6)}
-
-    @media (max-width:900px){header{padding:12px}main{padding:12px} .side-menu{width:260px}}
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MR GAMES</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="side-menu" id="sideMenu" aria-hidden="true">
-    <div class="menu-close" id="menuClose">×</div>
-    <nav class="menu-list">
-      <a href="#" id="menuChat">💬 Chat</a>
-      <a href="#" id="menuLinks">🔗 Useful Links</a>
-      <a href="#" id="menuBeta">🧪 BETA</a>
-      <a href="#" id="menuClash">⚔️ Clash Picker</a>
-      <a href="#" id="menuHollow">🗺️ Hollow Knight Map</a>
-      <a href="#" id="menuGBA">🎮 GBA Games</a>
-    </nav>
-  </div>
-  <div class="overlay" id="overlay"></div>
-
-  <header>
-    <div class="hamburger" id="menuToggle">☰</div>
-    <div class="logo">
-      <svg viewBox="0 0 100 100" width="52" height="52" aria-hidden>
-        <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#00ffff"/><stop offset="1" stop-color="#66f0ff"/></linearGradient></defs>
-        <rect x="8" y="8" width="84" height="84" rx="16" fill="url(#g)" opacity="0.16" />
-        <text x="50" y="60" text-anchor="middle" font-size="36" fill="#f0db4f" font-weight="800">MG</text>
-      </svg>
-    </div>
-    <div style="margin-left:12px">
-      <div class="brand-title">MR GAMES</div>
-      <div class="brand-sub">Preview logos • Play fast</div>
-    </div>
-
-    <div class="top-actions">
-      <button class="btn" id="openLogin">Login / Sign up</button>
-      <button class="btn primary" id="uploadBtn">Upload</button>
-    </div>
-  </header>
-
-  <main>
-    <div class="toolbar">
-      <div class="search"><input id="searchInput" type="search" placeholder="Search games or tags..." /></div>
-      <div><button class="btn" id="clearBtn">Clear</button></div>
-    </div>
-
-    <section class="games-grid" id="gamesGrid" aria-live="polite"></section>
-  </main>
-
-  <footer>© 2025 MR GAMES — Built with effort. Login data stored locally on your device.</footer>
-
-  <!-- Login / Signup Modal -->
-  <div class="modal" id="authModal" role="dialog" aria-modal="true">
-    <div class="modal-card" id="authCard">
-      <h3 id="authTitle">Sign up</h3>
-      <div id="authForms">
-        <div class="field"><label for="fullName">Full name</label><input id="fullName" type="text" placeholder="e.g. Cameron" /></div>
-        <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com" /></div>
-        <div class="field"><label for="username">Username</label><input id="username" type="text" placeholder="choose a username" /></div>
-        <div class="field"><label for="password">Password</label><input id="password" type="password" placeholder="password" /></div>
-        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px">
-          <button class="btn" id="switchAuth">Already have an account?</button>
-          <button class="btn primary" id="submitAuth">Sign up</button>
-        </div>
-        <div style="margin-top:10px;color:rgba(255,255,255,0.7);font-size:13px" id="authMsg"></div>
-      </div>
-    </div>
+  <!-- Hamburger -->
+  <div id="hamburger">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
   </div>
 
+  <!-- Side Menu -->
+  <div id="side-menu">
+    <a href="#" onclick="toggleChat()">Chat</a>
+    <a href="useful_links.html">Useful Links</a>
+    <a href="beta.html">BETA</a>
+    <a href="clash_picker.html">Clash Picker</a>
+    <a href="hollow_knight.html">Hollow Knight Map</a>
+    <a href="gba.html">GBA Games</a>
+  </div>
+
+  <div class="container">
+    <h1>MR GAMES</h1>
+    <p class="subtitle">The ultimate unblocked games arcade</p>
+    <div class="game-grid" id="game-grid"></div>
+  </div>
+
+  <script src="games.js"></script>
   <script>
-    /***********************
-     * Game list and images
-     ***********************/
-    const GAMES = [
-      {id:'minecraft',title:'Minecraft (Web)',url:'https://ihackforfree02.github.io/Precision-Client-For-EaglerCraft/',tags:['adventure']},
-      {id:'timeshooter',title:'Time Shooter',url:'https://schoolaccountforme.github.io/Time-Shooter-3-SWAT/',tags:['shooter']},
-      {id:'1v1',title:'1v1.LOL',url:'https://ihackforfree02.github.io/1v1.lol/',tags:['multiplayer','arcade']},
-      {id:'2048',title:'2048',url:'https://schoolaccountforme.github.io/2048/',tags:['puzzle']},
-      {id:'gunspin',title:'Gun Spin',url:'https://ihackforfree02.github.io/GunSpin/',tags:['arcade']},
-      {id:'polytrack',title:'Polytrack',url:'https://ihackforfree02.github.io/polytrack.3/',tags:['arcade']},
-      {id:'stickhook',title:'Stickman Hook',url:'https://ihackforfree02.github.io/Stickman-Hook/',tags:['arcade']},
-      {id:'cluster',title:'Cluster Rush',url:'https://ihackforfree02.github.io/cluster/',tags:['arcade']},
-      {id:'cookie',title:'Cookie Clicker',url:'https://ihackforfree02.github.io/cookie-clicker/',tags:['idle']},
-      {id:'doge',title:'Dogeminer',url:'https://amazingwebsitesupersigma.github.io/dogeminer/',tags:['idle']},
-      {id:'tinyfish',title:'Tiny Fishing',url:'https://amazingwebsitesupersigma.github.io/tinyfishing/',tags:['casual']},
-      {id:'rooftops',title:'Rooftop Snipers',url:'https://amazingwebsitesupersigma.github.io/rooftops/',tags:['shooter']},
-      {id:'bitlife',title:'Bitlife',url:'https://amazingwebsitesupersigma.github.io/bitlife/',tags:['sim']},
-      {id:'sausage',title:'Sausage Flip',url:'https://lnahtml.github.io/a6/sausage-flip',tags:['arcade']},
-      {id:'tunnelrush',title:'Tunnel Rush',url:'https://amazingwebsitesupersigma.github.io/tunnelrush/',tags:['arcade']},
-      {id:'geometry',title:'Geometry Dash',url:'https://amazingwebsitesupersigma.github.io/geodash/',tags:['arcade']},
-      {id:'fnaf1',title:'FNAF',url:'https://irv77.github.io/hd_fnaf/1/',tags:['horror']},
-      {id:'undertale',title:'Undertale',url:'https://sleepie.uk/undertale/save_states.html',tags:['adventure']},
-      {id:'deltarune',title:'Deltarune',url:'https://amazingwebsitesupersigma.github.io/deltarune/',tags:['adventure']},
-      {id:'track',title:'Track Racing',url:'https://ihackforfree02.github.io/TriggerRally/server/public/',tags:['racing']}
-    ];
-
-    // best-effort known logo/title art links (publicly hosted) — these are starting points
-    const KNOWN_LOGOS = {
-      minecraft: ['https://upload.wikimedia.org/wikipedia/commons/5/51/Minecraft_Logo.svg','https://www.minecraft.net/etc.clientlibs/minecraft/clientlibs/main/resources/img/minecraft-white.svg'],
-      '2048': ['https://raw.githubusercontent.com/gabrielecirulli/2048/master/icon.png','https://cdn.jsdelivr.net/gh/gabrielecirulli/2048@master/icon.png'],
-      geometry: ['https://cdn.glitch.global/geometry-dash/geometry_logo.png','https://static.wikia.nocookie.net/geometrydash/images/'],
-      // add more known logo URLs as we find them — these are optional starting points
-    };
-
-    const FALLBACK_IMAGE = 'data:image/svg+xml;utf8,' + encodeURIComponent(`
-      <svg xmlns='http://www.w3.org/2000/svg' width='1200' height='600'>
-        <rect width='100%' height='100%' fill='%23061224'/>
-        <text x='50%' y='50%' font-size='56' fill='%2300ffff' text-anchor='middle' font-family='Inter, Arial'>Preview Unavailable</text>
-      </svg>
-    `);
-
-    // Utility that tries multiple image URLs and resolves the first that loads successfully
-    function tryLoadImage(urls){
-      return new Promise((resolve)=>{
-        let i=0;
-        function attempt(){
-          if(i>=urls.length){ resolve(null); return; }
-          const u = urls[i++];
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = ()=> resolve(u);
-          img.onerror = ()=> attempt();
-          img.src = u;
-        }
-        attempt();
-      });
-    }
-
-    // For each game, compute candidate image URLs: known logos, common locations (favicon), and OpenGraph if we can (via simple heuristic)
-    async function findBestImageForGame(g){
-      const candidates = [];
-      // 1) known logos mapping
-      if(KNOWN_LOGOS[g.id]) candidates.push(...KNOWN_LOGOS[g.id]);
-      try{
-        const u = new URL(g.url);
-        // 2) common path: /logo.png, /logo.svg, /assets/logo.png
-        candidates.push(u.origin + '/logo.png', u.origin + '/logo.svg', u.origin + '/assets/logo.png', u.origin + '/favicon.ico');
-      }catch(e){}
-      // 3) use game title search on a lightweight service (Unsplash) — use Unsplash search API not available, so use themed placeholders
-      // We'll prefer real site candidates first
-      const found = await tryLoadImage(candidates);
-      if(found) return found;
-      // fallback: try to use a curated Unsplash search image by title (not guaranteed but visually relevant)
-      const unsplash = `https://source.unsplash.com/featured/?${encodeURIComponent(g.title+' game')}`;
-      // try unsplash (it returns an image redirect but should load)
-      const test = await tryLoadImage([unsplash]);
-      return test || FALLBACK_IMAGE;
-    }
-
-    // render grid with progressive image resolution — attempt to find logos dynamically and cache results in localStorage
-    async function renderGames(list){
-      const container = document.getElementById('gamesGrid'); container.innerHTML='';
-      const promises = list.map(async g=>{
-        const card = document.createElement('article'); card.className='card';
-        const preview = document.createElement('div'); preview.className='preview';
-        const meta = document.createElement('div'); meta.className='meta';
-        meta.innerHTML = `<h4>${g.title}</h4><p>${g.tags.join(' • ')}</p>`;
-        const actions = document.createElement('div'); actions.className='actions';
-        actions.innerHTML = `<div style='display:flex;gap:8px'><button class='btn previewBtn'>Preview</button><a class='btn primary' href='${g.url}' target='_blank' rel='noopener'>Play</a></div>`;
-        card.appendChild(preview);
-        card.appendChild(meta);
-        card.appendChild(actions);
-        container.appendChild(card);
-
-        // check cache
-        const cacheKey = 'logocache:'+g.id;
-        let imgUrl = localStorage.getItem(cacheKey);
-        if(!imgUrl){
-          imgUrl = await findBestImageForGame(g);
-          try{ localStorage.setItem(cacheKey,imgUrl); }catch(e){}
-        }
-        // if image is data URL or valid url, render it; else fallback to title block
-        if(imgUrl){
-          const imgEl = document.createElement('img');
-          imgEl.src = imgUrl; imgEl.alt = g.title + ' preview';
-          imgEl.onerror = ()=>{
-            // show fallback text
-            preview.innerHTML = `<div class='logo-fallback'>${escapeHtml(g.title)}</div>`;
-          };
-          preview.appendChild(imgEl);
-        } else {
-          preview.innerHTML = `<div class='logo-fallback'>${escapeHtml(g.title)}</div>`;
-        }
-
-        // Preview button shows a larger modal with the image
-        const previewBtn = actions.querySelector('.previewBtn');
-        previewBtn.addEventListener('click',()=>openPreviewModal(imgUrl,g.title,g.url));
-        return card;
-      });
-      await Promise.all(promises);
-      document.getElementById('count')?.textContent = list.length;
-    }
-
-    function escapeHtml(s){ return String(s).replace(/[&<>\"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
-
-    // modal for large preview
-    let previewModal;
-    function openPreviewModal(imgUrl,title,url){
-      if(previewModal){ previewModal.remove(); previewModal=null; }
-      previewModal = document.createElement('div'); previewModal.style.position='fixed'; previewModal.style.inset='0'; previewModal.style.display='flex'; previewModal.style.alignItems='center'; previewModal.style.justifyContent='center'; previewModal.style.background='rgba(0,0,0,0.8)'; previewModal.style.zIndex=120;
-      previewModal.addEventListener('click',()=>previewModal.remove());
-      const box = document.createElement('div'); box.style.width='90%'; box.style.maxWidth='900px'; box.style.height='70%'; box.style.borderRadius='12px'; box.style.overflow='hidden'; box.style.background='#000';
-      const img = document.createElement('img'); img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain'; img.src = imgUrl; img.alt = title + ' preview';
-      box.appendChild(img); previewModal.appendChild(box); document.body.appendChild(previewModal);
-    }
-
-    // initial render (progressive)
-    (async()=>{
-      await renderGames(GAMES);
-    })();
-
-    // search
-    document.getElementById('searchInput').addEventListener('input',e=>{
-      const q = e.target.value.toLowerCase().trim();
-      const filtered = GAMES.filter(g=> g.title.toLowerCase().includes(q) || g.tags.join(' ').includes(q));
-      renderGames(filtered);
+    const hamburger = document.getElementById("hamburger");
+    const sideMenu = document.getElementById("side-menu");
+    let menuOpen = false;
+    hamburger.addEventListener("click", () => {
+      menuOpen = !menuOpen;
+      sideMenu.style.left = menuOpen ? "0" : "-250px";
     });
-    document.getElementById('clearBtn').addEventListener('click',()=>{document.getElementById('searchInput').value=''; renderGames(GAMES);});
 
-    // side menu toggles
-    const menuToggle = document.getElementById('menuToggle'); const sideMenu = document.getElementById('sideMenu'); const menuClose = document.getElementById('menuClose'); const overlay = document.getElementById('overlay');
-    menuToggle.addEventListener('click',()=>{ sideMenu.classList.add('open'); overlay.classList.add('show'); });
-    menuClose.addEventListener('click',()=>{ sideMenu.classList.remove('open'); overlay.classList.remove('show'); });
-    overlay.addEventListener('click',()=>{ sideMenu.classList.remove('open'); overlay.classList.remove('show'); });
-
-    // menu links (some open in new tab)
-    document.getElementById('menuChat').addEventListener('click',e=>{ e.preventDefault(); window.open('https://communityhelp.linewize.org/','ChatWindow','width=400,height=600'); });
-    document.getElementById('menuLinks').addEventListener('click',e=>{ e.preventDefault(); window.open('https://ihackforfree02.github.io/Ihackforfree.github.io/','_blank'); });
-    document.getElementById('menuClash').addEventListener('click',e=>{ e.preventDefault(); window.open('Clash.html','_self'); });
-
-    /*************************
-     * Auth (localStorage)
-     *************************/
-    const authModal = document.getElementById('authModal'); const authTitle = document.getElementById('authTitle'); const submitAuth = document.getElementById('submitAuth'); const switchAuth = document.getElementById('switchAuth'); const openLogin = document.getElementById('openLogin');
-    let isSignup = true;
-
-    function showAuthModal(signup=true){ isSignup=signup; authTitle.textContent = signup ? 'Sign up' : 'Login'; document.getElementById('authMsg').textContent=''; authModal.classList.add('show');}
-    function hideAuthModal(){ authModal.classList.remove('show'); }
-
-    openLogin.addEventListener('click',()=> showAuthModal(true));
-    switchAuth.addEventListener('click',()=>{ showAuthModal(!isSignup); });
-
-    // hash function using SubtleCrypto
-    async function sha256(text){ const enc = new TextEncoder(); const data = enc.encode(text); const hash = await crypto.subtle.digest('SHA-256', data); return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join(''); }
-
-    function getUsers(){ try{ return JSON.parse(localStorage.getItem('mg_users')||'{}'); }catch(e){return {}} }
-    function saveUsers(u){ localStorage.setItem('mg_users', JSON.stringify(u)); }
-
-    // auto-login on load if current user stored
-    (async function(){ const cur = localStorage.getItem('mg_current'); if(cur){ try{ const users = getUsers(); if(users[cur]){ // auto logged in
-            console.log('Auto-logged in as', cur); }
-          }catch(e){} }})();
-
-    submitAuth.addEventListener('click', async ()=>{
-      const name = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim().toLowerCase();
-      const username = document.getElementById('username').value.trim();
-      const pass = document.getElementById('password').value;
-      const msg = document.getElementById('authMsg'); msg.textContent='';
-      if(isSignup){
-        if(!name||!email||!username||!pass){ msg.textContent='Please fill all fields.'; return; }
-        const users = getUsers(); if(users[username]){ msg.textContent='Username already exists.'; return; }
-        const passHash = await sha256(pass);
-        users[username] = {name,email,username,passHash,created:Date.now()}; saveUsers(users); localStorage.setItem('mg_current',username); msg.textContent='Signed up — logged in.'; setTimeout(()=>hideAuthModal(),900);
+    function toggleChat() {
+      if (window.chatWindow && !window.chatWindow.closed) {
+        window.chatWindow.focus();
       } else {
-        if(!username||!pass){ msg.textContent='Please fill username and password.'; return; }
-        const users = getUsers(); if(!users[username]){ msg.textContent='No account found.'; return; }
-        const passHash = await sha256(pass);
-        if(passHash !== users[username].passHash){ msg.textContent='Incorrect password.'; return; }
-        localStorage.setItem('mg_current',username); msg.textContent='Logged in.'; setTimeout(()=>hideAuthModal(),600);
+        window.chatWindow = window.open(
+          'https://communityhelp.linewize.org/',
+          'ChatWindow',
+          'width=400,height=600'
+        );
+        if (!window.chatWindow) alert("Popup blocked!");
       }
-    });
-
-    // close auth modal with Escape
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ authModal.classList.remove('show'); if(previewModal) previewModal.remove(); } });
-
-    // ensure auth modal close when clicking outside
-    authModal.addEventListener('click',e=>{ if(e.target===authModal) authModal.classList.remove('show'); });
-
-    // small performance note
-    console.log('MR GAMES: site loaded — images are progressively discovered, and login uses localStorage.');
+    }
   </script>
 </body>
 </html>
